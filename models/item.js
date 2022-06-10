@@ -22,11 +22,6 @@ const ItemSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'ItemCount',
     required: true
-  },
-  stock: {
-    type: Schema.Types.ObjectId,
-    ref: 'ItemCount',
-    required: true 
   }
 });
 
