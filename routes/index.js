@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
+const async = require( 'async' );
+
+const Item = require( '../models/item' );
+const Category = require( '../models/category' );
+const ItemCount = require( '../models/itemCount' );
+
 //CONTROLLERS
 const item_controller = require( '../controllers/itemController' );
 const category_controller = require( '../controllers/categoryController' );
@@ -8,7 +14,23 @@ const item_count_controller = require( '../controllers/itemCountController' );
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-  res.render('index', { title: 'EXPRESS' });
+  async.parallel({
+    item_quantity: ( callback ) => {
+      Item.countDocuments( {}, callback );
+    },
+    category_quantity: ( callback ) => {
+      Category.countDocuments( {}, callback );
+    },
+    itemCount_quantity: ( callback ) => {
+      ItemCount.countDocuments( {}, callback );
+    }
+  }, ( err, results ) => {
+    res.render( 'index', {
+      title: 'Pokemart Inventory',
+      error: err,
+      data: results
+    });
+  });
 });
 
 //ITEM ROUTES

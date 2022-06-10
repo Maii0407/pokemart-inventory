@@ -6,4 +6,16 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body 
-    block content
+    .main-container 
+      .navBar-container
+        .top-navbar
+          a( href='/' class='button-link' ) Home
+          a( href='/items' class='button-link' ) All Items 
+          a( href='/categories' class='button-link' ) All Categories
+          a( href='/itemcounts' class='button-link' ) All Item Count
+        .bottom-navbar
+          a( href='/item/create' class='button-link' ) Add New Item
+          a( href='/category/create' class='button-link' ) Add New Category
+          a( href='/itemcount/category' class='button-link' ) Add Item Quantity
+      .content-container
+        block content

@@ -1,6 +1,8 @@
 const Item = require( '../models/item' );
 
-exports.item_list = ( req, res, next ) => {};
+exports.item_list = ( req, res, next ) => {
+  res.send('Hello');
+};
 
 exports.item_detail = ( req, res, next ) => {};
 
