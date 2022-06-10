@@ -11,7 +11,7 @@ const ItemCountSchema = new Schema({
 });
 
 ItemCountSchema.virtual( 'url' ).get( function() {
-  return `/catalog/itemcount/${ this._id }`;
+  return `/itemcount/${ this._id }`;
 });
 
 module.exports = mongoose.model( 'ItemCount', ItemCountSchema );
