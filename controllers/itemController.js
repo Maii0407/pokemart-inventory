@@ -1,7 +1,14 @@
 const Item = require( '../models/item' );
 
 exports.item_list = ( req, res, next ) => {
-  res.send('Hello');
+  Item.find( {}, 'name price').sort({ name: 1 }).exec( ( err, list_items ) => {
+    if( err ) { return next( err ); }
+
+    res.render( 'item_list', {
+      title: 'Item List',
+      item_list: list_items
+    });
+  });
 };
 
 exports.item_detail = ( req, res, next ) => {};

@@ -1,9 +1,9 @@
 extends layout
 
 block content
-  h1= title
+  h1= title.toUpperCase()
   p Welcome to #{title}
 
-  p Item: #{ data.item_quantity }
-  p Category: #{ data.category_quantity }
-  p Total Items: #{ data.itemCount_quantity }
+  p #[strong Unique Items:] #{ data.item_quantity }
+  p #[strong Item Categories:] #{ data.category_quantity }
+  p #[strong Total Items:] #{ data.itemCount_quantity }
