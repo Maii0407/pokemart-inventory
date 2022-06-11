@@ -13,11 +13,10 @@ body {
 .main-container {
   display: flex;
   flex-direction: row;
-  min-height: 100vh;
 }
 
 .content-container {
-  margin-left: 20px;
+  margin-left: 25%;
 }
 
 .navBar-container,
@@ -31,6 +30,10 @@ body {
   width: 20%;
   background: #312450;
   justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  min-height: 100vh;
 }
 
 .top-navbar, .bottom-navbar {
@@ -38,10 +41,14 @@ body {
   align-items: center;
 }
 
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: gainsboro;
+}
+
 .button-link {
   width: 80%;
-  text-decoration: none;
-  color: white;
   text-align: right;
   font-size: 15px;
   border-bottom: 1px solid white;

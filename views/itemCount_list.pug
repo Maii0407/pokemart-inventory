@@ -1,0 +1,13 @@
+extends layout 
+
+block content
+  h1= title
+  p #[strong #{ para }:] #{ total } Items
+
+  div 
+    each obj in itemcount_list
+      div 
+        a( href=obj.url ) #{ obj.name }
+
+    else 
+      p Stock is empty

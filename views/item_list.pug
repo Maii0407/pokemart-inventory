@@ -3,11 +3,11 @@ extends layout
 block content 
   h1= title 
 
-  ul 
+  div
     each item in item_list 
-      li
+      div
         a( href=item.url ) #{ item.name }
         |  (#{ item.price })
 
     else 
-      li There are no items.
+      p There are no items.

@@ -5,7 +5,7 @@ exports.item_list = ( req, res, next ) => {
     if( err ) { return next( err ); }
 
     res.render( 'item_list', {
-      title: 'Item List',
+      title: 'ITEM LIST',
       item_list: list_items
     });
   });
