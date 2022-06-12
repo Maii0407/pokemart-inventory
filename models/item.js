@@ -2,6 +2,8 @@ const mongoose = require( 'mongoose' );
 
 const Schema = mongoose.Schema;
 
+const ItemCount = require( './itemCount' );
+
 const ItemSchema = new Schema({
   name: {
     type: String,
@@ -20,13 +22,17 @@ const ItemSchema = new Schema({
   },
   category: {
     type: Schema.Types.ObjectId,
-    ref: 'ItemCount',
+    ref: 'Category',
     required: true
   }
 });
 
 ItemSchema.virtual( 'url' ).get( function() {
   return `/item/${ this._id }`;
+});
+
+ItemSchema.virtual( 'total' ).get( function() {
+  
 });
 
 module.exports = mongoose.model( 'Item', ItemSchema );

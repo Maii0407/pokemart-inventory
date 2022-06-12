@@ -1,0 +1,15 @@
+extends layout 
+
+block content 
+  h1= title
+  h3 Category: #{ category.name }
+  h3 Category Description: #{ category.description }
+
+  .categoryItem-container
+    each item in item_category 
+      .categoryDetail-cards 
+        a( href=item.url ) #{ item.name }
+        p #{ item.description }.
+
+    else
+      p This category does not have items.

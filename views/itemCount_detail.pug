@@ -1,0 +1,9 @@
+extend layout 
+
+block content 
+  h1= title
+  h2 ITEM ID: #{ item_count._id }
+
+  p #[strong ITEM NAME:]
+    a( href=item_count.item.url ) #{ item_count.item.name }
+  p #[strong ITEM DESCRIPTION:] #{ item_count.item.description }.

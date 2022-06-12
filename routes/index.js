@@ -60,7 +60,6 @@ router.get( '/category/:id/update', category_controller.category_update_get );
 router.get( '/category/:id/update', category_controller.category_update_post );
 
 //ITEM COUNT ROUTES
-router.get( '/itemcounts', item_count_controller.itemCount_list );
 router.get( '/itemcount/:id', item_count_controller.itemCount_detail );
 
 router.get( '/itemcount/create', item_count_controller.itemCount_create_get );
