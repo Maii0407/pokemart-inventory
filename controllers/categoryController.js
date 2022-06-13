@@ -137,5 +137,50 @@ exports.category_delete_post = ( req, res, next ) => {
   });
 };
 
-exports.category_update_get = ( req, res, next ) => {};
-exports.category_update_post = ( req, res, next ) => {};
+//update CATEGORY functionality
+exports.category_update_get = ( req, res, next ) => {
+  Category.findById( req.params.id ).exec( ( err, category ) => {
+    if( err ) { return next( err ); }
+    if( category == null ) {
+      const err = new Error( 'CATEGORY Not Found' );
+      err.status = 404;
+      return next( err );
+    }
+
+    res.render( 'category_form', {
+      title: 'UPDATE CATEGORY',
+      category: category
+    });
+  })
+};
+
+exports.category_update_post = [
+  body( 'name', 'Category Name Required' ).trim().isLength({ min: 1 }).escape(),
+  body( 'description', 'Category Description Required' ).trim().isLength({ min: 1 }).escape(),
+
+  ( req, res, next ) => {
+    const errors = validationResult( req );
+
+    let category = new Category({
+      name: req.body.name,
+      description: req.body.description,
+      _id: req.params.id
+    });
+
+    if( !errors.isEmpty() ) {
+      res.render( 'category_form', {
+        title: 'UPDATE CATEGORY',
+        category: category,
+        errors: errors.array()
+      });
+      return;
+    }
+    else {
+      Category.findByIdAndUpdate( req.params.id, category, {}, ( err, thecategory ) => {
+        if( err ) { return next( err ); }
+
+        res.redirect( thecategory.url );
+      });
+    }
+  }
+];

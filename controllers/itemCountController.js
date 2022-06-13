@@ -93,5 +93,67 @@ exports.itemCount_delete_post = ( req, res, next ) => {
   }) 
 };
 
-exports.itemCount_update_get = ( req, res, next ) => {};
-exports.itemCount_update_post = ( req, res, next ) => {};
+//update ITEM IN STOCK functionality
+exports.itemCount_update_get = ( req, res, next ) => {
+  async.parallel({
+    itemcount: ( callback ) => {
+      ItemCount.findById( req.params.id ).populate( 'item' ).exec( callback );
+    },
+    item: ( callback ) => {
+      Item.find( callback );
+    }
+  }, ( err, results ) => {
+    if( err ) { return next( err ); }
+    if( results.itemcount == null ) {
+      const err = new Error( 'ITEM IN STOCK Not Found' );
+      err.status = 404;
+      return next( err );
+    }
+
+    res.render( 'itemCount_form', {
+      title: 'UPDATE ITEM IN STOCK',
+      selected_item: results.itemcount.item._id,
+      item_list: results.item
+    });
+  });
+};
+
+exports.itemCount_update_post = [
+  body( 'item', 'An Item Must Be Specified' ).trim().isLength({ min: 1 }).escape(),
+
+  ( req, res, next ) => {
+    const errors = validationResult( req );
+
+    let itemcount = new ItemCount({
+      item: req.body.item,
+      _id: req.params.id
+    });
+
+    if( !errors.isEmpty() ) {
+      async.parallel({
+        itemcount: ( callback ) => {
+          ItemCount.findById( req.params.id ).populate( 'item' ).exec( callback );
+        },
+        item: ( callback ) => {
+          Item.find( callback );
+        }
+      }, ( err, results ) => {
+        if( err ) { return next( err ); }
+
+        res.render( 'itemCount_form', {
+          title: 'UPDATE ITEM IN STOCK',
+          selected_item: results.itemcount.item._id,
+          item_list: results.item
+        });
+      });
+      return;
+    }
+    else {
+      ItemCount.findByIdAndUpdate( req.params.id, itemcount, {}, ( err, theitemcount ) => {
+        if( err ) { return next( err ); }
+
+        res.redirect( theitemcount.url );
+      });
+    }
+  }
+];

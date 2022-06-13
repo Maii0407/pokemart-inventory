@@ -57,18 +57,6 @@ exports.item_create_get = ( req, res, next ) => {
 };
 
 exports.item_create_post = [
-  ( req, res, next ) => {
-    if( !( req.body.category instanceof Array )) {
-      if( typeof req.body.category === 'undefined' ) {
-        req.body.category = [];
-      }
-      else {
-        req.body.category = new Array( req.body.category );
-      }
-    }
-    next();
-  },
-
   body( 'name', 'Name Must Not Be Empty' ).trim().isLength({ min: 1 }).escape(),
   body( 'description', 'Description Must Not Be Empty' ).trim().isLength({ min: 1 }).escape(),
   body( 'price', 'Price Must Not Be Empty' ).trim().isLength({ min: 1 }).escape(),
@@ -96,7 +84,6 @@ exports.item_create_post = [
           title: 'CREATE NEW ITEM:',
           categories: results.category,
           item: item,
-          selected_category: results.category._id,
           errors: errors.array()
         });
       });
@@ -164,5 +151,73 @@ exports.item_delete_post = ( req, res, next ) => {
   });
 };
 
-exports.item_update_get = ( req, res, next ) => {};
-exports.item_update_post = ( req, res, next ) => {};
+//update ITEM functionality
+exports.item_update_get = ( req, res, next ) => {
+  async.parallel({
+    item: ( callback ) => {
+      Item.findById( req.params.id ).populate( 'category' ).exec( callback );
+    },
+    category: ( callback ) => {
+      Category.find( callback );
+    }
+  }, ( err, results ) => {
+    if( err ) { return next( err ); }
+    if( results.item == null ) {
+      const err = new Error( 'ITEM Not Found' );
+      err.status = 404;
+      return next( err );
+    }
+
+    res.render( 'item_form', {
+      title: 'UPDATE ITEM',
+      item: results.item,
+      categories: results.category,
+      selected_category: results.item.category
+    });
+  });
+};
+
+exports.item_update_post = [
+  body( 'name', 'Name Must Not Be Empty' ).trim().isLength({ min: 1 }).escape(),
+  body( 'description', 'Description Must Not Be Empty' ).trim().isLength({ min: 1 }).escape(),
+  body( 'price', 'Price Must Not Be Empty' ).trim().isLength({ min: 1 }).escape(),
+  body( 'category.*' ).escape(),
+
+  ( req, res, next ) => {
+    const errors = validationResult( req );
+
+    let item = new Item({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      category: req.body.category,
+      _id: req.params.id
+    });
+
+    if( !errors.isEmpty() ) {
+      async.parallel({
+        category: ( callback ) => {
+          Category.find( callback );
+        }
+      }, ( err, results ) => {
+        if( err ) { return next( err ); }
+
+        res.render( 'item_form', {
+          title: 'CREATE NEW ITEM:',
+          categories: results.category,
+          item: item,
+          selected_category: results.category._id,
+          errors: errors.array()
+        });
+      });
+      return;
+    }
+    else {
+      Item.findByIdAndUpdate( req.params.id, item, {}, ( err, theitem ) => {
+        if( err ) { return next( err ); }
+
+        res.redirect( theitem.url );
+      });
+    }
+  }
+];
