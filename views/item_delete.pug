@@ -1,0 +1,31 @@
+extends layout 
+
+block content 
+  h1 #{ title } #{ item.name }
+  p #[strong ITEM DESCRIPTION: ] #{ item.description }
+
+  if item_instock.length 
+
+    p #[strong Delete the following items in stock before attempting to delete this item. ]
+
+    div 
+      h4 Total Items in Stock: #{ item_instock.length }
+
+      div 
+        each val in item_instock 
+          div 
+            a( href=val.url ) #[strong #{ item_instock.indexOf( val ) + 1 } ITEM ID:] #{ val._id }
+
+  else 
+    p Do you really want to delete this Item?
+
+    form( method='POST' action='' )
+      .form-group 
+        input#itemid.form-control(
+          type='hidden'
+          name='itemid'
+          required='true'
+          value=item._id
+        )
+
+      button( type='submit' ) Delete

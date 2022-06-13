@@ -40,7 +40,7 @@ exports.item_detail = ( req, res, next ) => {
   });
 };
 
-//CREATE NEW ITEM FUNCTIONALITY
+//create new ITEM functionality
 exports.item_create_get = ( req, res, next ) => {
   async.parallel({
     category: ( callback ) => {
@@ -112,8 +112,57 @@ exports.item_create_post = [
   }
 ];
 
-exports.item_delete_get = ( req, res, next ) => {};
-exports.item_delete_post = ( req, res, next ) => {};
+//delete ITEM functionality
+exports.item_delete_get = ( req, res, next ) => {
+  async.parallel({
+    item: ( callback ) => {
+      Item.findById( req.params.id ).exec( callback );
+    },
+    item_instock: ( callback ) => {
+      ItemCount.find({ 'item': req.params.id }).exec( callback );
+    }
+  }, ( err, results ) => {
+    if( err ) { return next( err ); }
+    if( results.item == null ) {
+      res.redirect( '/items' );
+    }
+
+    res.render( 'item_delete', {
+      title: 'DELETE ITEM:',
+      item: results.item,
+      item_instock: results.item_instock
+    })
+  });
+};
+
+exports.item_delete_post = ( req, res, next ) => {
+  async.parallel({
+    item: ( callback ) => {
+      Item.findById( req.body.itemid ).exec( callback );
+    },
+    item_instock: ( callback ) => {
+      ItemCount.find({ 'item': req.body.itemid }).exec( callback );
+    }
+  }, ( err, results ) => {
+    if( err ) { return next( err ); }
+
+    if( results.item_instock.length > 0 ) {
+      res.render( 'item_delete', {
+        title: 'DELETE ITEM:',
+        item: results.item,
+        item_instock: results.item_instock
+      });
+      return;
+    }
+    else {
+      Item.findByIdAndRemove( req.body.itemid, deleteItem = ( err ) => {
+        if( err ) { return next( err ); }
+
+        res.redirect(  '/items')
+      })
+    }
+  });
+};
 
 exports.item_update_get = ( req, res, next ) => {};
 exports.item_update_post = ( req, res, next ) => {};

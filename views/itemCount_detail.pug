@@ -7,3 +7,7 @@ block content
   p #[strong ITEM NAME:]
     a( href=item_count.item.url ) #{ item_count.item.name }
   p #[strong ITEM DESCRIPTION:] #{ item_count.item.description }.
+
+  hr
+  p 
+    a( href=`${ item_count.url }/delete` ) Delete Item in Stock

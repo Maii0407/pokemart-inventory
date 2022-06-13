@@ -20,7 +20,7 @@ exports.itemCount_detail = ( req, res, next ) => {
   });
 };
 
-//ADD ITEM TO STOCK FUNCTIONALITY
+//add ITEM TO STOCK functionality
 exports.itemCount_create_get = ( req, res, next ) => {
   Item.find( {}, 'name' ).exec( ( err, items ) => {
     if( err ) { return next( err ); }
@@ -66,8 +66,32 @@ exports.itemCount_create_post = [
   }
 ];
 
-exports.itemCount_delete_get = ( req, res, next ) => {};
-exports.itemCount_delete_post = ( req, res, next ) => {};
+//delete ITEM IN STOCK functionality
+exports.itemCount_delete_get = ( req, res, next ) => {
+  ItemCount.findById( req.params.id ).populate( 'item' ).exec( ( err, item_count ) => {
+    if( err ) { return next( err ); }
+    if( item_count == null ) {
+      res.redirect( '/items' );
+    }
+
+    res.render( 'itemCount_delete', {
+      title: 'DELETE ITEM IN STOCK',
+      item_count: item_count
+    });
+  })
+};
+
+exports.itemCount_delete_post = ( req, res, next ) => {
+  ItemCount.findById( req.body.itemcountid ).populate( 'item' ).exec( ( err, item_count ) => {
+    if( err ) { return next( err ); }
+
+    ItemCount.findByIdAndRemove( req.body.itemcountid, deleteItemcount = ( err ) => {
+      if( err ) { return next( err ); }
+
+      res.redirect( item_count.item.url );
+    })
+  }) 
+};
 
 exports.itemCount_update_get = ( req, res, next ) => {};
 exports.itemCount_update_post = ( req, res, next ) => {};

@@ -1,5 +1,6 @@
 const Category = require( '../models/category' );
 const Item = require( '../models/item' );
+const ItemCount = require( '../models/itemCount' );
 
 const async = require( 'async' );
 const { body, validationResult } = require( 'express-validator' );
@@ -39,7 +40,7 @@ exports.category_detail = ( req, res, next ) => {
   });
 };
 
-//CREATE NEW CATEGORY FUNCTIONALITY
+//create new CATEGORY functionality
 exports.category_create_get = ( req, res, next ) => {
   res.render( 'category_form', {
     title: 'CREATE NEW CATEGORY'
@@ -84,8 +85,57 @@ exports.category_create_post = [
   }
 ];
 
-exports.category_delete_get = ( req, res, next ) => {};
-exports.category_delete_post = ( req, res, next ) => {};
+//delete CATEGORY functionality
+exports.category_delete_get = ( req, res, next ) => {
+  async.parallel({
+    category: ( callback ) => {
+      Category.findById( req.params.id ).exec( callback );
+    },
+    category_items: ( callback ) => {
+      Item.find({ 'category': req.params.id }).exec( callback );
+    }
+  }, ( err, results ) => {
+    if( err ) { return next( err ); }
+    if( results.category == null ) {
+      res.redirect( '/categories' );
+    }
+
+    res.render( 'category_delete', {
+      title: 'DELETE CATEGORY:',
+      category: results.category,
+      category_items: results.category_items
+    });
+  });
+};
+
+exports.category_delete_post = ( req, res, next ) => {
+  async.parallel({
+    category: ( callback ) => {
+      Category.findById( req.body.categoryid ).exec( callback );
+    },
+    categories_items: ( callback ) => {
+      Item.find({ 'category': req.body.categoryid }).exec( callback );
+    }
+  }, ( err, results ) => {
+    if( err ) { return next( err ); }
+
+    if( results.categories_items.length > 0 ) {
+      res.render( 'category_delete', {
+        title: 'DELETE CATEGORY:',
+        category: results.category,
+        category_items: results.categories_items
+      });
+      return;
+    }
+    else {
+      Category.findByIdAndRemove( req.body.categoryid, deleteCategory = ( err ) => {
+        if( err ) { return next( err ); }
+
+        res.redirect( '/categories' );
+      })
+    }
+  });
+};
 
 exports.category_update_get = ( req, res, next ) => {};
 exports.category_update_post = ( req, res, next ) => {};

@@ -1,0 +1,21 @@
+extends layout 
+
+block content 
+  h1 #{ title }
+  p #[strong ITEM ID: ] #{ item_count._id }
+  p #[strong ITEM NAME:] #{ item_count.item.name }
+  p #[strong ITEM DESCRIPTION: ] #{ item_count.item.description }
+
+  hr
+  p Do you really want to delete this item in stock?
+
+  form( method='POST' action='' )
+    .form-group 
+      input#itemcountid.form-control(
+        type='hidden'
+        name='itemcountid'
+        required='true'
+        value=item_count._id
+      )
+
+    button( type='submit' ) Delete
