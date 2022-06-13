@@ -1,0 +1,26 @@
+extends layout 
+
+block content
+  h1= title 
+
+  form( method='POST' action='' )
+    .form-group 
+      label( for='item' ) #[strong Item: ]
+      select#item.form-control(
+        type='select'
+        placeholder='Select Item'
+        name='item'
+        required='true'
+      )
+        for item in item_list
+          option(
+            value=item._id
+            selected=( selected_item == item._id.toString() ? 'selected' : false )
+          ) #{ item.name }
+
+    button( type='submit' ) Submit 
+
+  if errors 
+    ul 
+      for error in errors 
+        li!= error.msg

@@ -1,0 +1,50 @@
+extends layout 
+
+block content 
+  h1= title
+
+  form( method='POST' action='' )
+    .form-group
+      label( for='name' ) #[strong ITEM NAME:]
+      input#name.form-control(
+        type='text'
+        placeholder='Enter Name of Item'
+        name='name'
+        required='true'
+        value=( undefined === item ? '' : item.name )
+      )
+      label( for='description' ) #[strong ITEM DESCRIPTION:]
+      input#description.form-control(
+        type='text'
+        placeholder='Enter Description of Item'
+        name='description'
+        required='true'
+        value=( undefined === item ? '' : item.description )
+      )
+      label( for='price' ) #[strong ITEM PRICE:]
+      input#price.form-control(
+        type='number'
+        placeholder='Enter Price of Item'
+        name='price'
+        required='true'
+        value=( undefined === item ? '' : item.price )
+      )
+    .form-group
+      label( for='category' ) #[strong ITEM CATEGORY:]
+      select#category.form-control(
+        type='select'
+        placeholder='Select Category'
+        name='category'
+        required='true'
+      )
+        for category in categories 
+          option(
+            value=category._id
+            selected=( selected_category==category._id.toString() ? 'selected' : false )
+          ) #{ category.name }
+    button( type='submit' ) Submit
+
+  if errors
+    ul 
+      for error in errors
+        li!=error.msg

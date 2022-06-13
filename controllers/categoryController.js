@@ -1,8 +1,8 @@
-const async = require( 'async' );
-const { body, validationResult } = require( 'express-validator' );
-
 const Category = require( '../models/category' );
 const Item = require( '../models/item' );
+
+const async = require( 'async' );
+const { body, validationResult } = require( 'express-validator' );
 
 exports.category_list = ( req, res, next ) => {
   Category.find( {}, 'name').sort({ name: 1}).exec( ( err, list_categories ) => {

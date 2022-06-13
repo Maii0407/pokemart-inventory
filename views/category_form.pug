@@ -5,14 +5,14 @@ block content
 
   form( method='POST' action='' )
     .form-group 
-      label( for='name' ) Category Name: 
+      label( for='name' ) #[strong Category Name:] 
       input#name.form-control(
         type='text'
         placeholder='Enter New Category Name'
         name='name'
         value=( undefined === category ? '' : category.name )
       )
-      label( for='description' ) Category Description: 
+      label( for='description' ) #[strong Category Description:] 
       input#description.form-control(
         type='text'
         placeholder='Enter New Category Description'
