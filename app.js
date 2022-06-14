@@ -13,7 +13,8 @@ const usersRouter = require('./routes/users');
 const app = express();
 
 const mongoose = require( 'mongoose' );
-const mongoDB = `${ process.env.MONGODB }`;
+const dev_db_url = `${ process.env.MONGODB }`;
+const mongoDB = process.env.MONGODB || dev_db_url;
 mongoose.connect( mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on( 'error', console.error.bind( console, 'MongoDB connection error:'));
