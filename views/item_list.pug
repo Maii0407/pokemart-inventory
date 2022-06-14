@@ -1,13 +1,15 @@
 extends layout 
 
 block content 
-  h1= title 
+  h1= title
+  p #[strong Total Items: ] #{ item_list.length }
 
   div
     each item in item_list 
       div
-        a( href=item.url ) #{ item.name }
-        |  (#{ item.price })
+        p #[strong #{ item_list.indexOf( item ) + 1 }. Item Name: ]
+          a.list-link( href=item.url ) #{ item.name }
+          |  #[strong $#{ item.price }]
 
     else 
       p There are no items.

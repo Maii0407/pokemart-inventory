@@ -8,14 +8,18 @@ block content
 
     p #[strong Delete the following items before attempting to delete this category.]
 
-    div 
-      h4 Items: 
+    hr
+    div
+      h4 Items in Category: 
 
       div 
-        each item in category_items 
-          div 
-            a( href=item.url ) #{ item.name }
-            p #{ item.description }
+        each item in category_items
+          hr
+          div
+            p #[strong Item Name: ]
+              a( href=item.url ) #{ item.name }
+              p #[strong Item Description: ] #{ item.description }
+              p #[strong Item Price: ] #{ item.price }
 
   else 
     p Do you really want to delete this Category?
@@ -29,4 +33,4 @@ block content
           value=category._id
         )
 
-      button( type='submit' ) Delete
+      button.delete-btn( type='submit' ) Delete

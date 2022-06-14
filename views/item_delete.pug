@@ -8,13 +8,15 @@ block content
 
     p #[strong Delete the following items in stock before attempting to delete this item. ]
 
+    hr
     div 
       h4 Total Items in Stock: #{ item_instock.length }
 
       div 
         each val in item_instock 
-          div 
-            a( href=val.url ) #[strong #{ item_instock.indexOf( val ) + 1 } ITEM ID:] #{ val._id }
+          div
+            p #[strong #{ item_instock.indexOf( val ) + 1 }. ITEM ID: ]
+              a( href=val.url ) #{ val._id }
 
   else 
     p Do you really want to delete this Item?
@@ -28,4 +30,4 @@ block content
           value=item._id
         )
 
-      button( type='submit' ) Delete
+      button.delete-btn( type='submit' ) Delete

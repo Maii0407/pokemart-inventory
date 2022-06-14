@@ -1,12 +1,14 @@
 extends layout 
 
 block content 
-  h1= title 
+  h1= title
+  p #[strong Total Categories: ] #{ category_list.length }
 
   div 
     each category in category_list 
-      div 
-        a( href=category.url ) #{ category.name }
+      div
+        p #[strong #{ category_list.indexOf( category ) + 1 }. Category Name: ]
+          a.list-link( href=category.url ) #{ category.name }
 
     else 
       p There are no categories created.

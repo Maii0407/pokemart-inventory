@@ -4,25 +4,26 @@ block content
   h1= title
   h2 ITEM NAME: #{ item.name }
 
-  p #[strong ITEM DESCRIPTION:] #{ item.description }.
+  p #[strong ITEM DESCRIPTION: ] #{ item.description }.
 
-  p #[strong ITEM CATEGORY:]
+  p #[strong ITEM CATEGORY: ]
     a( href=item.category.url ) #{ item.category.name }
 
   div 
     h4 ITEM IN STOCK 
-    p #[strong Total in Stock:] #{ item_stock.length }
+    p #[strong Total in Stock: ] #{ item_stock.length }
 
     div 
       each val in item_stock 
-        div 
-          a( href=val.url ) #[strong #{ item_stock.indexOf( val ) + 1 }.   ITEM ID:] #{ val._id }
+        div
+          p #[strong #{ item_stock.indexOf( val ) + 1 }.   ITEM ID: ]
+            a( href=val.url ) #{ val._id }
 
       else 
         p This item is not available in stock.
 
   hr
   p 
-    a( href=`${ item.url }/delete` ) Delete Item
+    a.delete-link( href=`${ item.url }/delete` ) Delete Item
   p
-    a( href=`${ item.url }/update` ) Update Item
+    a.update-link( href=`${ item.url }/update` ) Update Item

@@ -44,14 +44,25 @@ body {
 a {
   text-decoration: none;
   font-weight: bold;
-  color: gainsboro;
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .button-link {
   width: 80%;
   text-align: right;
   font-size: 15px;
-  border-bottom: 1px solid white;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.35);
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+a:hover {
+  color: white;
+  border-bottom: 3px solid #b74e91;
+}
+
+.list-link {
+  border-bottom: 3px solid rgba(255, 255, 255, 0.35);
 }
 
 form {
@@ -63,4 +74,59 @@ form {
 .form-group {
   display: flex;
   flex-direction: column;
+}
+
+.form-group label {
+  margin-top: 15px;
+}
+
+.form-group input {
+  text-indent: 10px;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  font-size: 15px;
+}
+
+.form-group select {
+  text-indent: 10px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 15px;
+
+  cursor: pointer;
+  font-weight: 400;
+  color: black;
+}
+
+.form-group select,
+.form-group input {
+  margin-top: 10px;
+}
+
+.submit-btn,
+.delete-btn {
+  height: 30px;
+  margin-top: 20px;
+  width: 40%;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.submit-btn:hover {
+  background-color: green;
+  color: whitesmoke;
+  border-color: whitesmoke;
+}
+
+.delete-btn:hover {
+  background-color: red;
+  color: whitesmoke;
+  border-color: whitesmoke;
+}
+
+hr {
+  color: white;
 }

@@ -4,12 +4,12 @@ block content
   h1= title
   h2 ITEM ID: #{ item_count._id }
 
-  p #[strong ITEM NAME:]
+  p #[strong ITEM NAME: ]
     a( href=item_count.item.url ) #{ item_count.item.name }
-  p #[strong ITEM DESCRIPTION:] #{ item_count.item.description }.
+  p #[strong ITEM DESCRIPTION: ] #{ item_count.item.description }.
 
   hr
   p 
-    a( href=`${ item_count.url }/delete` ) Delete Item in Stock
+    a.delete-link( href=`${ item_count.url }/delete` ) Delete Item in Stock
   p 
-    a( href=`${ item_count.url }/update` ) Update Item in Stock
+    a.update-link( href=`${ item_count.url }/update` ) Update Item in Stock
